@@ -1,0 +1,21 @@
+import { useRouter } from 'next/router';
+import styles from '../../styles/user.module.scss';
+import MainContainer from './../../.history/components/MainContainer_20221028211316';
+
+export default function User({ user }) {
+  const { query } = useRouter();
+  return (
+    <MainContainer className={styles.user}>
+      <h1>Пользователь с id {query.id}</h1>
+      <div>Имя пользователя - {user.name}</div>
+    </div>
+  );
+}
+
+export async function getServerSideProps({params}) {
+    const response = await fetch(`https://jsonplaceholder.typicode.com/users/${params.id}`);
+    const user = await response.json();
+    return {
+      props: {user}, // will be passed to the page component as props
+    }
+  }
